@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ana Rosa Casadei — portafolio</title>
+<meta name="description" content="Ana Rosa Casadei, diseñadora brasileña: identidad visual, sitios web e interfaces.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bordo:#5C1A2B; --vinho:#7B0614; --rosa:#B76E79; --off:#F5F0E7; --tinta:#2c1d20;
+    --ease:cubic-bezier(.65,0,.25,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* mesa: tom liso de papel envelhecido, bem clarinho (sem textura) */
+  html,body{height:100%;overflow:hidden;background:#f0e9d9}
+  #bg{display:none}
+  body{font-family:'Satoshi',system-ui,sans-serif;color:var(--tinta);-webkit-font-smoothing:antialiased}
+  #viewport{position:fixed;inset:0;overflow:hidden}
+  #stage{position:absolute;left:50%;top:50%;width:1440px;height:1024px;transform-origin:0 0;perspective:2400px}
+  #bg{position:absolute;inset:0;background:url(assets/papel.webp) 0 0/101.6% 100% no-repeat;-webkit-mask:linear-gradient(90deg,#000 96%,transparent);mask:linear-gradient(90deg,#000 96%,transparent)}
+  .el{position:absolute;left:0;top:0;transform-origin:0 0;pointer-events:none;user-select:none;-webkit-user-drag:none}
+  .desk{transition:transform 1.6s var(--ease), opacity .8s ease}
+  .fx.desk{transition:opacity .8s ease}   /* chama, fumaça e notas acompanham o objeto: não deslizam sozinhas */
+  img.el{display:block}
+
+  /* ---------- vela y café ---------- */
+  .fx{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;pointer-events:none!important}
+  .fx i{position:absolute;display:block;pointer-events:none}
+  .fx .glow{left:0;top:0;width:520px;height:520px;border-radius:50%;transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(255,196,110,.55) 0%, rgba(255,150,60,.28) 22%, rgba(255,120,40,.10) 45%, rgba(255,120,40,0) 68%);mix-blend-mode:screen}
+  .fx .halo{left:-55px;top:-55px;width:110px;height:110px;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,250,225,.95) 0%, rgba(255,214,140,.55) 30%, rgba(255,170,80,0) 70%);mix-blend-mode:screen}
+  .fx .flame{left:-11px;top:-19px;width:22px;height:34px;border-radius:50% 50% 50% 50% / 62% 62% 40% 40%;transform-origin:50% 75%;
+    background:radial-gradient(ellipse at 50% 68%, #fff 0%, #fff8e0 28%, #ffd27a 52%, rgba(255,140,40,.55) 72%, rgba(255,110,30,0) 100%);filter:blur(.6px)}
+  .fx .steam{left:-45px;top:-120px;width:90px;height:150px;border-radius:50%;opacity:0;
+    background:radial-gradient(ellipse at 50% 60%, rgba(255,255,255,.9), rgba(255,255,255,.35) 45%, rgba(255,255,255,0) 72%);
+    filter:blur(9px);mix-blend-mode:screen;animation:steam 6.5s cubic-bezier(.35,.1,.45,1) infinite}
+  .fx .s2{animation-delay:1.3s;animation-name:steam2}
+  .fx .s3{animation-delay:2.6s}
+  .fx .s4{animation-delay:3.9s;animation-name:steam2}
+  .fx .s5{animation-delay:5.2s;animation-name:steam3}
+  @keyframes steam{
+    0%{opacity:0;transform:translate(0,60px) scale(.45,.5) rotate(0)}
+    18%{opacity:.85}
+    55%{opacity:.45;transform:translate(26px,-90px) scale(.9,1.15) rotate(10deg)}
+    100%{opacity:0;transform:translate(-18px,-320px) scale(1.7,2) rotate(-8deg)}}
+  @keyframes steam2{
+    0%{opacity:0;transform:translate(-10px,60px) scale(.4,.5) rotate(0)}
+    20%{opacity:.7}
+    60%{opacity:.4;transform:translate(-34px,-80px) scale(.95,1.2) rotate(-12deg)}
+    100%{opacity:0;transform:translate(14px,-240px) scale(1.6,1.9) rotate(6deg)}}
+  @keyframes steam3{
+    0%{opacity:0;transform:translate(8px,50px) scale(.35,.45)}
+    25%{opacity:.6}
+    100%{opacity:0;transform:translate(40px,-220px) scale(1.4,1.7) rotate(14deg)}}
+  .fx .dim{left:-188px;top:-188px;width:380px;height:380px;border-radius:50%;opacity:0;mix-blend-mode:multiply;
+    background:radial-gradient(circle, rgba(120,55,25,.6) 0%, rgba(110,50,25,.5) 50%, rgba(110,50,25,.3) 88%, rgba(110,50,25,0) 100%)}
+  .fx .patch{left:-28px;top:-27px;width:56px;height:58px;border-radius:50%;opacity:0;
+    background:radial-gradient(circle, rgb(236,125,47) 0%, rgb(236,125,47) 55%, rgba(236,125,47,0) 100%)}
+  .fx .wick{left:-3px;top:-4px;width:6px;height:12px;border-radius:3px;opacity:0;rotate:8deg;
+    background:linear-gradient(#2a1a14,#1a0f0b 70%,#ff7a2a);box-shadow:0 5px 4px -2px rgba(255,110,40,.7)}
+  .fx .puddle{position:absolute;left:-200px;top:-232px;overflow:visible;transition:opacity 1.2s ease}
+  .fx .puddle .gloss,.fx .puddle .spec{transition:opacity 2s ease}
+  .fx .puddle.dry .gloss,.fx .puddle.dry .spec{opacity:0}
+  .fx .puddle.dry{opacity:0;transition:opacity 6s ease 1s}
+  .fx .sw{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+  .fx .smoke{left:-14px;top:-30px;width:28px;height:60px;border-radius:50%;opacity:0;
+    background:radial-gradient(ellipse at 50% 70%, rgba(120,110,105,.75), rgba(120,110,105,0) 70%);filter:blur(5px)}
+  .fx .smoke.puff{animation:puff 2.2s ease-out forwards}
+  @keyframes puff{0%{opacity:.9;transform:translate(0,0) scale(.6)}40%{opacity:.6;transform:translate(10px,-70px) scale(1.2,1.6) rotate(12deg)}
+    100%{opacity:0;transform:translate(-14px,-180px) scale(2,2.6) rotate(-10deg)}}
+  /* iPod */
+  .fx .screen{position:absolute;left:0;top:0;width:138px;height:110px;border-radius:3px;padding:9px 9px 0;opacity:0;transition:opacity .6s ease;
+    background:linear-gradient(160deg,#cfe0e6,#9fb9c4 55%,#7f9ca8);box-shadow:inset 0 0 14px rgba(0,0,0,.35);font-family:'Satoshi',system-ui,sans-serif;color:#1d2b33;overflow:hidden}
+  .playing .fx .screen{opacity:.92}
+  .fx .screen b{display:block;font:600 9px 'Satoshi',system-ui;letter-spacing:.02em;border-bottom:1px solid rgba(29,43,51,.3);padding-bottom:4px}
+  .fx .screen .mq{overflow:hidden;white-space:nowrap;margin-top:9px;font:500 11px 'Satoshi',system-ui}
+  .fx .screen .mq span{display:inline-block;padding-left:100%;animation:mq 9s linear infinite}
+  @keyframes mq{to{transform:translateX(-100%)}}
+  .fx .screen .bar{position:absolute;left:9px;right:9px;bottom:12px;height:5px;border:1px solid rgba(29,43,51,.5);border-radius:4px;overflow:hidden}
+  .fx .screen .bar i{position:absolute;left:0;top:0;bottom:0;width:30%;background:rgba(29,43,51,.6);animation:bar 30s linear infinite}
+  @keyframes bar{from{width:0}to{width:100%}}
+  .fx .note{position:absolute;left:0;top:0;font-family:'Fraunces',Georgia,serif;font-style:normal;color:var(--vinho);opacity:0;
+    text-shadow:0 1px 0 rgba(255,255,255,.6);animation:note 3.2s cubic-bezier(.3,.2,.4,1) forwards}
+  @keyframes note{0%{opacity:0;transform:translate(0,0) scale(.5) rotate(0)}15%{opacity:.95}
+    50%{transform:translate(calc(var(--dx) * .5 + 9px),-55px) scale(1) rotate(var(--rot))}
+    100%{opacity:0;transform:translate(var(--dx),-120px) scale(1.1) rotate(calc(var(--rot) * -1))}}
+  /* ---------- celular ---------- */
+  #mnav{display:none}
+  body.mobile #nav,body.mobile #count,body.mobile #skip,body.mobile #hitCover{display:none!important}
+  body.mobile #mnav{position:fixed;left:0;right:0;bottom:0;height:76px;z-index:90;display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:0 14px env(safe-area-inset-bottom);background:linear-gradient(rgba(245,240,231,0),rgba(245,240,231,.94) 30%);opacity:0;pointer-events:none;transition:opacity .5s ease}
+  body.mobile:has(#stage[data-state="pages"]) #mnav{opacity:1;pointer-events:auto}
+  #mnav button{width:96px;height:44px;border:0;background:none;padding:0;cursor:pointer;transition:opacity .3s}
+  #mnav button img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(60,20,25,.2))}
+  #mnav button:disabled{opacity:0;pointer-events:none}
+  #mcount{flex:1;text-align:center;font:italic 300 15px 'Fraunces',serif;color:var(--bordo)}
+  #mcount b{font-style:normal;font-weight:400}
+  /* caderno fechado no celular: o atalho para recrutadores fica na capa, grande e legível */
+  body.mobile #hitClosed{left:762px;top:301px;width:465px;height:564px}
+  body.mobile #hint{left:994px;top:846px;font-size:28px}
+  body.mobile #coverText{left:869px;top:440px;width:250px;height:178px;padding:0 30px;translate:none!important;scale:1!important;isolation:isolate;opacity:0;pointer-events:none;transition:opacity .15s ease}
+  body.mobile #coverText::before{content:"";position:absolute;left:50%;top:50%;width:178px;height:250px;margin:-125px 0 0 -89px;rotate:90deg;z-index:-1;
+    background:url(assets/renda.webp) center/100% 100% no-repeat;filter:drop-shadow(0 4px 8px rgba(40,10,15,.35))}
+  body.mobile #coverText .q{font-size:16px;line-height:1.1}
+  body.mobile #coverText .l{font-size:11.5px;margin:3px 0 8px}
+  body.mobile #coverText .btns{flex-direction:column;gap:5px;align-items:center}
+  body.mobile #coverText button{font-size:8.5px;padding:5px 0;width:100px}
+  /* celular: só o botão Resumen, maior (os projetos já aparecem ao abrir o caderno) */
+  body.mobile #btnProyectos{display:none}
+  body.mobile #coverText #btnResumen{font-size:11px;padding:9px 0;width:132px;letter-spacing:.14em}
+  body.mobile [data-state="closed"] #coverText{opacity:1;pointer-events:auto;transition:opacity .6s ease 1s}
+  body.mobile #layerCover{display:none}
+
+  .fx .tip{position:absolute;left:0;top:0;transform:translate(-50%,-100%) rotate(-4deg);white-space:nowrap;pointer-events:none;
+    font:italic 400 34px/1 'Fraunces',Georgia,serif;color:var(--vinho);text-shadow:0 1px 0 rgba(255,255,255,.8),0 0 10px rgba(255,255,255,.7);
+    opacity:0;transition:opacity .25s ease, translate .25s ease;translate:0 8px}
+  .fx.side .tip{transform:translate(0,-50%) rotate(-4deg);font-size:17px}
+  .fx.below .tip{transform:translate(0,-50%) rotate(-4deg);font-size:40px}
+  .fx .tip .arr{position:absolute;left:-96px;top:-72px;width:100px;height:88px;overflow:visible}
+  .fx .tip .arr path{fill:none;stroke:var(--vinho);stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+  .fx.on .tip{opacity:1;translate:0 0}
+
+  /* ---------- iPod: tela com o player do YouTube ---------- */
+  .fx .ytbox{position:absolute;left:0;top:0;width:138px;height:110px;background:#0d0d0f;overflow:hidden;border-radius:2px}
+  .fx .ythost{position:absolute;left:0;top:0;width:276px;height:220px;transform:scale(.5);transform-origin:0 0;pointer-events:none}
+  .ythost iframe{width:100%;height:100%;border:0;display:block}
+  .scr-idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+    background:linear-gradient(160deg,#d9dee2,#b9c2c8);color:#1d2b33;font-family:'Satoshi',system-ui;transition:opacity .4s ease}
+  .scr-idle b{font-size:11px;letter-spacing:.2em}
+  .scr-idle span{font:italic 400 22px/1 'Fraunces',Georgia,serif;color:var(--vinho);margin:2px 0}
+  .scr-idle i{font-style:normal;font-size:9px;letter-spacing:.1em;opacity:.7}
+  .ytlive .scr-idle{opacity:0}
+  /* nome da música na etiqueta da mesa */
+  .label-song{position:absolute;left:0;top:0;transform-origin:0 0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:0 52px;pointer-events:none;color:var(--vinho);z-index:1}
+  .label-song small{font:500 12px 'Satoshi',system-ui;letter-spacing:.22em;text-transform:uppercase;opacity:.75}
+  .label-song b{font:italic 400 26px/1.1 'Fraunces',Georgia,serif;margin-top:8px;max-width:100%;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .label-song i{font:400 15px 'Satoshi',system-ui;font-style:normal;margin-top:6px;opacity:.85}
+  /* celular: o iPod abre grande */
+  #ipodBig{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(30,10,14,0);pointer-events:none;transition:background .4s ease;visibility:hidden}
+  #ipodBig.open{background:rgba(30,10,14,.45);pointer-events:auto;visibility:visible}
+  #ipodBig.anim{visibility:visible}
+  #ipodBig .ib{position:relative;width:min(84vw,330px);aspect-ratio:334/526;transform-origin:50% 50%;will-change:transform}
+  #ipodBig .ib img{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;filter:drop-shadow(0 22px 30px rgba(30,8,12,.4))}
+  #ipodBig .ib-scr{position:absolute;left:8.4%;top:5.5%;width:82.6%;height:41.8%;background:#0d0d0f;z-index:1;overflow:hidden}
+  #ipodBig .ythost{position:absolute;inset:0;pointer-events:none}
+  #ipodBig.tapyt .ythost{pointer-events:auto}
+  #ipodBig.tapyt .scr-idle{opacity:0;pointer-events:none}
+  #ipodBig .scr-idle b{font-size:15px} #ipodBig .scr-idle span{font-size:44px} #ipodBig .scr-idle i{font-size:12px}
+  #ipodBig .ib-x{position:absolute;right:-8px;top:-8px;z-index:3;width:26px;height:26px;border-radius:50%;border:0;background:rgba(255,255,255,.92);
+    color:var(--vinho);font:400 17px/26px 'Satoshi',system-ui;text-align:center;padding:0;cursor:pointer;box-shadow:0 2px 8px rgba(30,8,12,.25)}
+  #ipodBig .ib-song{position:absolute;left:0;right:0;top:calc(100% + 14px);text-align:center;color:#fff;font:italic 400 17px 'Fraunces',Georgia,serif;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+  /* capa virando como folha + dedinho de dica */
+  .cvflip #coverText{z-index:43}   /* fica parada na capa; a folha passa por cima dela */
+  .cvnojump #coverText{transition:none!important}
+  /* sem a legendinha "untitled — ….png" em cima das janelas do Paint */
+  .paint-cap{display:none!important}
+  /* botão de idioma ES · PT */
+  #lang{position:fixed;top:14px;right:18px;z-index:300;display:flex;align-items:center;gap:6px;font:500 11px 'Satoshi',system-ui;letter-spacing:.16em;color:var(--bordo)}
+  #lang button{border:0;background:none;padding:4px 2px;cursor:pointer;font:inherit;letter-spacing:inherit;color:inherit;opacity:.5;border-bottom:1px solid transparent}
+  #lang button:hover{opacity:.85}
+  #lang button.on{opacity:1;border-bottom-color:rgba(92,26,43,.45)}
+  #lang i{font-style:normal;opacity:.35}
+  body.mobile #lang{top:8px;right:10px}
+  /* celular: o texto de "Sobre mí" um pouco mais perto da dobra */
+  body.mobile .txt[data-hkey="autora:L"] .blk{translate:-30px 0}
+  /* troca capa ↔ páginas sem "ajustada": as páginas aparecem por baixo da folha sem animar */
+  .cvnojump #pages,.cvnojump #cover,.cvnojump #layerCover{transition:none!important}
+  .cvnojump #bookGrp{transition:opacity .28s ease!important}
+  .cvnojump #nav{transition:none!important}
+  .cv-finger{position:absolute;left:0;top:0;margin:-7px 0 0 -19px;transform-origin:19px 7px;pointer-events:none;opacity:0;z-index:40;filter:drop-shadow(0 4px 6px rgba(60,10,20,.25))}
+  @media (prefers-reduced-motion: reduce){ .fx .steam,.fx .note{animation:none} }
+
+  /* ---------- estados ---------- */
+  .grp{position:absolute;inset:0;transition:opacity .7s ease, transform .9s var(--ease)}
+  #closedWrap{z-index:9;transform-style:preserve-3d}
+  #closedBook{transform:var(--closed-tf);transition:transform 1.1s var(--ease), opacity .5s ease .6s;backface-visibility:hidden}
+  #cover{z-index:7}
+  #bookGrp{z-index:20}
+  #pages{z-index:21}
+  [data-state="loading"] .desk, [data-state="loading"] #cover, [data-state="loading"] #closedWrap,
+  [data-state="loading"] #bookGrp, [data-state="loading"] #pages{opacity:0}
+  /* os fones (por baixo do iPod) também ficam escondidos durante o holis */
+  #deskLayer img.added{transition:opacity .8s ease}
+  [data-state="loading"] #deskLayer img.added{opacity:0}
+  [data-state="messy"] #cover, [data-state="messy"] #bookGrp, [data-state="messy"] #pages, [data-state="messy"] #closedWrap{opacity:0}
+  [data-state="closed"] #cover, [data-state="closed"] #bookGrp, [data-state="closed"] #pages{opacity:0}
+  #closedWrap{opacity:0}
+  [data-state="messy"] .later{opacity:0}
+  .later{transition:transform 1.6s var(--ease), opacity .8s ease 1.2s}
+  [data-state="closed"] #closedWrap{opacity:1;transition:opacity .9s ease .7s}
+  [data-state="cover"] #closedWrap, [data-state="pages"] #closedWrap{opacity:1}
+  [data-state="cover"] #closedBook, [data-state="pages"] #closedBook{transform:var(--closed-tf) rotateY(-178deg);opacity:0}
+  [data-state="cover"] #bookGrp, [data-state="cover"] #pages{opacity:0;transform:translateX(30px)}
+  #cover{transition:opacity .8s ease .25s}
+  [data-state="closed"] #cover{transition:opacity .3s ease}
+  [data-state="pages"] #cover, [data-state="pages"] #layerCover{transition:opacity .2s ease 0s}   /* a capa (e a etiqueta) somem logo ao passar para as páginas */
+  #coverText{opacity:0;transition:opacity .15s ease}
+  [data-state="cover"] #coverText{opacity:1;transition:opacity .8s ease .9s}
+
+  /* ---------- cargando ---------- */
+  #loader{position:absolute;inset:0;z-index:50;transition:opacity .8s ease}
+  #loader.out{opacity:0;pointer-events:none}
+  #loader svg{position:absolute;inset:0;width:1440px;height:1024px;overflow:visible}
+  #loadPen{position:absolute;left:0;top:0;width:493px;height:493px;will-change:transform}
+  #skip{position:absolute;right:48px;bottom:36px;z-index:60;font:italic 300 18px 'Fraunces',serif;color:var(--bordo);background:none;border:0;cursor:pointer;opacity:.7}
+  #skip:hover{opacity:1}
+  [data-state]:not([data-state="loading"]):not([data-state="messy"]) #skip{display:none}
+
+  /* ---------- cuaderno cerrado ---------- */
+  #hint{position:absolute;left:782px;top:975px;transform:translateX(-50%);z-index:30;font:italic 300 22px 'Fraunces',serif;color:var(--bordo);opacity:0;transition:opacity .6s ease;white-space:nowrap;pointer-events:none}
+  [data-state="closed"] #hint{opacity:.85;transition-delay:1.6s;animation:breathe 2.6s ease-in-out infinite 2s}
+  @keyframes breathe{50%{opacity:.4}}
+  #hitClosed{position:absolute;left:512px;top:306px;width:540px;height:655px;z-index:40;cursor:pointer;display:none}
+  [data-state="closed"] #hitClosed{display:block}
+  #hitCover{position:absolute;left:300px;top:200px;width:960px;height:760px;z-index:40;cursor:pointer;display:none}
+  [data-state="cover"] #hitCover{display:block}
+
+  /* etiqueta de la portada: atajo */
+  #coverText{position:absolute;left:470px;top:298px;width:228px;height:134px;z-index:45;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--bordo)}
+  #coverText .q{font:400 19px/1.1 'Fraunces',serif;letter-spacing:-.01em}
+  #coverText .l{font:italic 300 14px 'Fraunces',serif;margin:5px 0 11px;color:var(--rosa)}
+  #coverText .btns{display:flex;gap:8px}
+  #coverText button{font:500 10px 'Satoshi',sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:8px 12px;border-radius:999px;border:1px solid var(--bordo);background:transparent;color:var(--bordo);cursor:pointer;transition:background .25s,color .25s}
+  #coverText button.fill,#coverText button:hover{background:var(--bordo);color:var(--off)}
+  #coverText button.fill:hover{background:var(--vinho)}
+  [data-state]:not([data-state="cover"]) #coverText{pointer-events:none}
+
+  /* tag "SOBRE MÍ" en la página de estrellas */
+  #aboutTag{position:absolute;left:868px;top:520px;z-index:45;transform:rotate(-6deg);cursor:pointer;opacity:0;transition:opacity .8s ease 1.1s, transform .35s ease;filter:drop-shadow(0 6px 10px rgba(60,20,25,.25))}
+  [data-state="cover"] #aboutTag{opacity:1}
+  [data-state]:not([data-state="cover"]) #aboutTag{pointer-events:none;transition-delay:0s}
+  #aboutTag:hover{transform:rotate(-2deg) translateY(-3px)}
+  #aboutTag .t{position:relative;display:block;background:var(--off);color:var(--bordo);font:500 15px 'Satoshi',sans-serif;letter-spacing:.28em;padding:16px 26px 16px 46px;clip-path:polygon(22px 0,100% 0,100% 100%,22px 100%,0 50%)}
+  #aboutTag .t::before{content:"";position:absolute;left:20px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:#c9a77d;box-shadow:inset 0 1px 2px rgba(0,0,0,.35)}
+  #aboutTag .s{position:absolute;left:-62px;top:24px;width:90px;height:2px;background:var(--vinho);transform:rotate(-24deg);transform-origin:100% 50%;border-radius:2px}
+
+  /* carta resumen */
+  #carta{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:6vh 16px;background:rgba(40,12,18,.5);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .45s ease;overflow-y:auto;--W:min(520px,84vw)}
+  #carta.on{opacity:1;pointer-events:auto}
+  /* envelope */
+  #carta .env{position:fixed;left:50%;top:54%;width:var(--W);height:calc(var(--W) * .833);translate:-50% -50%;pointer-events:none;transition:transform .7s cubic-bezier(.5,0,.75,0),opacity .6s ease}
+  #carta .env-closed{position:absolute;left:0;bottom:0;width:100%;filter:drop-shadow(0 18px 24px rgba(20,4,8,.45));opacity:0;transform:translateY(60px) rotate(-4deg) scale(.92);
+    transition:transform .6s cubic-bezier(.2,.8,.3,1.15),opacity .35s ease}
+  #carta.on .env-closed{opacity:1;transform:none}
+  #carta.opened .env-closed{opacity:0;transform:scale(1.03,.96);transition:opacity .3s ease,transform .3s ease}
+  #carta .env-open{position:absolute;inset:0;opacity:0;transition:opacity .3s ease;filter:drop-shadow(0 18px 24px rgba(20,4,8,.45))}
+  #carta.opened .env-open{opacity:1}
+  #carta .env-back{position:absolute;left:1%;right:1%;top:2%;bottom:1%;background:linear-gradient(#4a0b12,#5e1018 60%,#6a131c);border-radius:2px}
+  #carta .env-paper{position:absolute;left:4.7%;width:88.5%;top:6%;height:88%;background:#e6dfd0 url(assets/papel-carta.webp) 0 0/420px auto;box-shadow:0 -2px 8px rgba(0,0,0,.18);
+    transition:transform 1s cubic-bezier(.3,.1,.2,1)}
+  #carta.rising .env-paper{transform:translateY(-62%)}
+  #carta .env-front{position:absolute;left:0;bottom:0;width:100%}
+  #carta.reading .env{transform:translateY(55vh) rotate(3deg);opacity:0}
+  /* la carta */
+  #carta .paper{position:relative;width:min(680px,100%);color:var(--tinta);padding:64px clamp(24px,6vw,64px) 56px;margin-bottom:6vh;
+    background:radial-gradient(ellipse at 50% 40%, rgba(255,255,255,.18), rgba(120,95,60,.16) 100%), #e6dfd0 url(assets/papel-carta.webp) 0 0/530px auto;
+    box-shadow:0 30px 70px rgba(30,8,12,.5), inset 0 0 0 1px rgba(255,255,255,.35), inset 0 0 60px rgba(110,85,50,.18);
+    opacity:0;transform:translateY(120px) scale(.86) rotate(-1.2deg);transform-origin:50% 0;transition:transform .8s cubic-bezier(.2,.8,.25,1),opacity .5s ease;visibility:hidden}
+  #carta.reading .paper{opacity:1;transform:rotate(-.4deg);visibility:visible}
+  #carta .close{position:absolute;right:22px;top:20px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(92,26,43,.35);background:transparent;color:var(--bordo);font:300 22px/1 'Fraunces',serif;cursor:pointer}
+  #carta .close:hover{background:var(--bordo);color:var(--off)}
+  #carta .seal{position:absolute;right:56px;top:-26px;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#a3243a,#5C1A2B 70%);color:#f1d6d0;display:flex;align-items:center;justify-content:center;font:italic 400 20px 'Fraunces',serif;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+  #carta .kicker{font:500 12px 'Satoshi';letter-spacing:.2em;text-transform:uppercase;color:var(--rosa);margin-bottom:12px}
+  #carta h2{font-size:clamp(30px,5vw,42px)}
+  #carta p{font-size:17.5px;line-height:1.65;margin-bottom:14px}
+  #carta dl{display:block;margin:26px 0 36px;padding:20px 0 6px;border-top:1px solid rgba(92,26,43,.2);border-bottom:1px solid rgba(92,26,43,.2)}
+  #carta dd{margin:4px 0 16px}
+  #carta dt{font:500 12px 'Satoshi';letter-spacing:.16em;text-transform:uppercase;color:var(--rosa);padding-top:3px}
+  #carta dd{font:400 17.5px 'Fraunces',serif;color:var(--bordo)}
+  #carta .proj{padding:26px 0;border-bottom:1px dashed rgba(92,26,43,.3)}
+  #carta .proj h3{font:400 26px 'Fraunces',serif;color:var(--bordo)}
+  #carta .proj .sub{font:italic 300 16.5px 'Fraunces',serif;color:var(--rosa);margin:2px 0 10px}
+  #carta .media{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0 12px}
+  #carta .media figure{aspect-ratio:4/3;overflow:hidden;background:repeating-linear-gradient(135deg,rgba(183,110,121,.08) 0 10px,transparent 10px 20px),#f3ece1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(92,26,43,.12)}
+  #carta .media img,#carta .media video{width:100%;height:100%;object-fit:cover;display:block}
+  #carta .media figcaption{font:italic 300 14px 'Fraunces',serif;color:var(--rosa)}
+  #carta .go{font:500 11px 'Satoshi';letter-spacing:.16em;text-transform:uppercase;color:var(--bordo);background:none;border:0;border-bottom:1px solid var(--bordo);padding:2px 0;cursor:pointer}
+  #carta .go:hover{color:var(--vinho)}
+  /* celular: a carta ocupa a largura toda, sem inclinação nem desfoque (evitam o papel "sambando" ao rolar) */
+  @media (max-width: 820px){
+    #carta{padding:0;backdrop-filter:none;-webkit-backdrop-filter:none;background:#3a0f16;overscroll-behavior:contain}
+    #carta .paper{width:100%;margin:0;min-height:100%;padding:64px 22px 48px;box-shadow:none;transform:translateY(40px);transition:transform .6s cubic-bezier(.2,.8,.25,1),opacity .5s ease}
+    #carta.reading .paper{transform:none}
+    #carta .seal{top:12px;right:72px;width:46px;height:46px;font-size:17px}
+    #carta .close{top:14px;right:14px}
+    #carta .media{grid-template-columns:1fr}
+  }
+  #carta .end{text-align:center;margin-top:36px}
+  #carta .end a{color:var(--bordo);font:400 20px 'Fraunces',serif;text-decoration:none;border-bottom:1px solid rgba(92,26,43,.3)}
+  #carta .end .links{margin-top:8px;font:500 12px 'Satoshi';letter-spacing:.16em;text-transform:uppercase}
+  #carta .end .links a{font:inherit;border:0}
+  #carta .sign{font:italic 300 22px 'Fraunces',serif;color:var(--vinho);margin-top:22px}
+
+  /* ---------- páginas ---------- */
+  .page{position:absolute;top:269px;width:428px;height:629px}
+  body.mobile #stage[data-state="pages"]{touch-action:none}
+  #pageL{left:352px} #pageR{left:780px}
+  .page .el{pointer-events:none}
+  .leaf{position:absolute;top:269px;width:428px;height:629px;transform-style:preserve-3d;z-index:30;will-change:transform}
+  .leaf .face{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden;background-size:100% 100%}
+  .leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .45s ease}
+  .leaf .back{transform:rotateY(180deg)}
+  .leaf.fwd{left:780px;transform-origin:0 50%}
+  .leaf.bwd{left:352px;transform-origin:100% 50%}
+  .leaf.fwd .front{background-image:url(assets/folha-dir.webp)}
+  .leaf.fwd .back{background-image:url(assets/folha-esq.webp)}
+  .leaf.bwd .front{background-image:url(assets/folha-esq.webp)}
+  .leaf.bwd .back{background-image:url(assets/folha-dir.webp)}
+  .leaf .front::after{background:linear-gradient(90deg,rgba(60,20,25,.0),rgba(60,20,25,.18))}
+  .leaf.turning .front::after{opacity:1}
+  .shade{position:absolute;top:269px;height:629px;width:428px;z-index:29;pointer-events:none;opacity:0;transition:opacity .45s ease}
+  .shade.on{opacity:1}
+
+  .pc{position:absolute;inset:0}
+  .blk{position:absolute;pointer-events:auto}
+  .kicker{font:500 12px 'Satoshi';letter-spacing:.2em;text-transform:uppercase;color:var(--rosa);margin-bottom:12px}
+  h2{font:400 38px/1.02 'Fraunces',serif;color:var(--bordo);letter-spacing:-.015em;margin-bottom:16px;font-variation-settings:"opsz" 120}
+  h2 em,.blk em{font-style:italic;font-weight:300}
+  .blk p{font-size:16.5px;line-height:1.55;margin-bottom:11px}
+  .blk p.sub{font:italic 300 18.5px 'Fraunces',serif;color:var(--rosa);margin-top:-8px;margin-bottom:18px}
+  .blk p.hand{font:italic 300 20px/1.35 'Fraunces',serif;color:var(--vinho);margin-top:18px}
+  .skills{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .skills li{font:500 11px 'Satoshi',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--bordo);border:1px solid rgba(92,26,43,.3);border-radius:999px;padding:5px 10px}
+  #carta dd{line-height:1.5}
+  .index{list-style:none;margin-top:26px;border-top:1px solid rgba(92,26,43,.2)}
+  .index li{display:flex;align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px solid rgba(92,26,43,.2);font:400 21px 'Fraunces',serif;color:var(--bordo);cursor:pointer;transition:padding .3s ease,color .3s ease}
+  .index li:hover{padding-left:8px;color:var(--vinho)}
+  .index li span{font:500 12px 'Satoshi';letter-spacing:.15em;color:var(--rosa)}
+  .index li i{margin-left:auto;font:italic 300 15.5px 'Fraunces',serif;color:var(--rosa)}
+  .notes{list-style:none;margin:18px 0}
+  .notes li{font:400 20px/1.3 'Fraunces',serif;color:var(--bordo);padding:10px 0;border-bottom:1px dashed rgba(92,26,43,.3)}
+  .soon{font:italic 300 16px 'Fraunces',serif!important;color:var(--rosa)}
+  .banner-text{position:absolute;left:0;top:384px;width:428px;text-align:center;font:italic 300 24px 'Fraunces',serif;color:var(--off);letter-spacing:.01em;z-index:5;text-decoration:none;display:block;pointer-events:auto}
+  a.banner-text:hover{letter-spacing:.04em;transition:letter-spacing .3s}
+  .banner-cap{position:absolute;left:0;width:428px;text-align:center;font:italic 300 15.5px 'Fraunces',serif;color:var(--rosa)}
+  .contact{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+  .contact a{color:var(--bordo);text-decoration:none;font:400 20px 'Fraunces',serif;border-bottom:1px solid rgba(92,26,43,.3);transition:color .3s,border-color .3s}
+  .contact a:hover{color:var(--vinho);border-color:var(--vinho)}
+  .contact span a{font:500 14px 'Satoshi';letter-spacing:.15em;text-transform:uppercase;border:0}
+  .contact .sign{font:italic 300 18px 'Fraunces',serif;color:var(--rosa);margin-top:14px}
+  .paint-cap{position:absolute;left:30px;top:76px;font:italic 300 16px 'Fraunces',serif;color:var(--rosa)}
+  .ver-sitio{position:absolute;left:50%;top:506px;translate:-50% 0;width:300px;height:50px;display:flex;align-items:center;justify-content:center;
+    background:url(assets/faixa.webp) center/100% 100% no-repeat;color:var(--off);font:italic 300 21px 'Fraunces',serif;text-decoration:none;pointer-events:auto;
+    filter:drop-shadow(0 3px 4px rgba(60,20,25,.2));transition:letter-spacing .3s ease, transform .3s ease}
+  .ver-sitio:hover{letter-spacing:.05em;transform:translateY(-2px)}
+  #carta .links-proj{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:6px}
+  #carta .ver-sitio.mini{position:relative;left:auto;top:auto;translate:none;width:200px;height:38px;font-size:17px;color:var(--off);border:0}
+  .ens-title{position:absolute;left:30px;top:566px;width:370px;font:300 16.5px/1.35 'Fraunces',serif;color:var(--bordo)}
+  .ens-title em{font-size:22px;font-style:italic}
+
+  .slot{position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;display:flex;align-items:center;justify-content:center;
+        background:repeating-linear-gradient(135deg,rgba(183,110,121,.07) 0 10px,rgba(183,110,121,.0) 10px 20px),#f7f2ea}
+  .slot img,.slot video{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+  .slot span{font:italic 300 15px 'Fraunces',serif;color:var(--rosa);text-align:center;padding:6px;line-height:1.2}
+
+  /* ---------- navegación ---------- */
+  #nav{position:absolute;inset:0;z-index:45;pointer-events:none;opacity:0;transition:opacity .6s ease}
+  [data-state="cover"] #nav, [data-state="pages"] #nav{opacity:1}
+  .turning #nav{opacity:.25}
+  #nav button{position:absolute;pointer-events:auto;padding:0;border:0;background:none;cursor:pointer;transition:transform .35s var(--ease),opacity .3s;filter:drop-shadow(0 3px 4px rgba(60,20,25,.18))}
+  #nav button img{width:100%;height:100%;display:block;pointer-events:none}
+  #nav button:disabled{opacity:0;pointer-events:none}
+  #prev{left:148px;top:617px;width:177px;height:72px;rotate:-13deg}
+  #prev:hover{transform:translateX(-10px)}
+  #next{left:1255px;top:620px;width:192px;height:77px}
+  #next:hover{transform:translateX(10px)}
+  #count{position:absolute;left:780px;top:950px;transform:translateX(-50%);white-space:nowrap;pointer-events:auto}
+  /* menuzinho de seções */
+  .secmenu{display:flex;align-items:center;justify-content:center;gap:10px}
+  .secmenu i{font-style:normal;color:var(--bordo);opacity:.35}
+  .secmenu button{border:0;background:none;padding:4px 2px;cursor:pointer;font:500 13px 'Satoshi',system-ui;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--bordo);opacity:.55;transition:opacity .25s ease;border-bottom:1px solid transparent}
+  .secmenu button:hover{opacity:.9}
+  .secmenu button.on{opacity:1;border-bottom-color:rgba(92,26,43,.45)}
+  /* sem as mãozinhas: a folha vira arrastando (setas do teclado continuam) */
+  #prev,#next,#mprev,#mnext{display:none!important}
+  body.mobile #mnav{justify-content:center!important}
+  #nav .secmenu button,#mnav .secmenu button{position:static!important;width:auto!important;height:auto!important;filter:none!important;transform:none!important}
+  #mcount.secmenu{gap:4px;flex:1} #mcount.secmenu button{font-size:9.5px;letter-spacing:.05em;padding:6px 1px}
+  [data-state="cover"] #count{opacity:0;pointer-events:none}
+  #count b{font-weight:400;font-style:normal}
+
+  /* ---------- capas de elementos agregados ---------- */
+  .layer{position:absolute;inset:0;pointer-events:none;transition:opacity .7s ease}
+  .layer .blk{pointer-events:auto}
+  #layerDesk{z-index:16}
+  #layerCover{z-index:44;opacity:0}
+  [data-state="cover"] #layerCover{opacity:1;transition-delay:.8s}
+  body:not(.editing) [data-state="cover"] #layerCover [data-key],body:not(.editing) [data-state="cover"] #layerCover .blk{pointer-events:auto;cursor:pointer}
+  [data-state="loading"] #layerDesk,[data-state="messy"] #layerDesk{opacity:0}
+
+  /* ---------- modo edición ---------- */
+  .editing .layer{pointer-events:none}
+  .editing .grp,.editing .page,.editing .pc,.editing #deskLayer,.editing #bg{pointer-events:none}
+  .editing [data-key],.editing .tb,.editing #coverText,.editing #aboutTag{pointer-events:auto!important;cursor:move}
+  .editing #hitClosed,.editing #hitCover,.editing #hint,.editing #skip{display:none!important}
+  .editing .desk,.editing #closedBook,.editing .later{transition:none!important}
+  .editing [data-key]:hover{outline:1px dashed rgba(183,110,121,.8)}
+  .editing .tb:hover{outline:1px dashed rgba(92,26,43,.5)}
+  .editing [contenteditable]{outline:2px solid var(--rosa)!important;cursor:text;background:rgba(255,255,255,.4)}
+  #edSel{position:absolute;display:none;z-index:300;border:1.5px solid var(--vinho);pointer-events:none;box-shadow:0 0 0 1px rgba(255,255,255,.7)}
+  #edSel i{position:absolute;pointer-events:auto;background:var(--vinho);border:2px solid #fff}
+  #edSel .rot{left:50%;top:-34px;width:18px;height:18px;margin-left:-9px;border-radius:50%;cursor:grab}
+  #edSel .rot::after{content:"";position:absolute;left:50%;top:16px;width:1.5px;height:16px;background:var(--vinho)}
+  #edSel .sz{right:-9px;bottom:-9px;width:16px;height:16px;cursor:nwse-resize}
+  body.editing #viewport{top:52px}
+  #edBar{position:fixed;left:0;right:0;top:0;height:52px;z-index:500;display:flex;align-items:center;gap:16px;padding:0 16px;background:#2a0b10;color:#f5f0e7;font:500 13px 'Satoshi',system-ui,sans-serif}
+  #edBar strong{font:italic 400 17px 'Fraunces',serif}
+  #edBar .grp-b{display:flex;gap:6px}
+  #edBar button{font:500 12px 'Satoshi',system-ui,sans-serif;padding:8px 12px;border-radius:999px;border:1px solid rgba(245,240,231,.35);background:transparent;color:#f5f0e7;cursor:pointer}
+  #edBar button:hover{background:rgba(245,240,231,.12)}
+  #edBar button.main{background:#B76E79;border-color:#B76E79}
+  #edInfo{flex:1;opacity:.8;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #edHelp{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:500;background:rgba(42,11,16,.85);color:#f5f0e7;font:400 12px 'Satoshi',system-ui;padding:7px 14px;border-radius:999px;pointer-events:none}
+  #edPanel{position:fixed;top:60px;left:16px;width:340px;max-height:calc(100vh - 80px);overflow:auto;z-index:550;background:#f5f0e7;color:#3b2a2c;border-radius:14px;box-shadow:0 20px 50px rgba(30,8,12,.35);padding:16px;display:none;font:400 13px 'Satoshi',system-ui,sans-serif}
+  #edPanel.on{display:block}
+  #edPanel .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  #edPanel .hd strong{font:italic 400 20px 'Fraunces',serif;color:#5C1A2B}
+  #edPanel .x{border:0;background:none;font-size:22px;cursor:pointer;color:#5C1A2B}
+  #edPanel label{display:flex;flex-direction:column;gap:4px;font-weight:500}
+  #edPanel select{padding:7px;border-radius:8px;border:1px solid rgba(92,26,43,.3);background:#fff;font:inherit}
+  #edPanel .sec{margin:14px 0 6px;font:500 10px 'Satoshi';letter-spacing:.18em;text-transform:uppercase;color:#B76E79}
+  #edPanel .row{display:flex;flex-wrap:wrap;gap:6px}
+  #edPanel .row button{padding:7px 11px;border-radius:999px;border:1px solid #5C1A2B;background:transparent;color:#5C1A2B;cursor:pointer;font:500 12px 'Satoshi'}
+  #edPanel .row button:hover{background:#5C1A2B;color:#f5f0e7}
+  #edPanel .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  #edPanel .grid button{aspect-ratio:1;border:1px solid rgba(92,26,43,.15);border-radius:8px;background:#fff;cursor:pointer;padding:5px}
+  #edPanel .grid button:hover{border-color:#5C1A2B}
+  #edPanel .grid img{width:100%;height:100%;object-fit:contain}
+  #edPanel .note{font-size:11px;opacity:.75;margin-top:6px;line-height:1.4}
+  #edOut{position:fixed;inset:10vh 10vw;z-index:600;background:#f5f0e7;padding:20px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  #edOut textarea{flex:1;font:12px monospace}
+
+  /* ---------- celular ---------- */
+  #mnav{display:none}
+  body.mobile #nav,body.mobile #count,body.mobile #skip{display:none}
+  body.mobile #mnav{position:fixed;left:0;right:0;bottom:0;height:76px;z-index:90;display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:0 14px calc(env(safe-area-inset-bottom) + 0px);background:linear-gradient(rgba(245,240,231,0),rgba(245,240,231,.94) 30%);opacity:0;pointer-events:none;transition:opacity .5s ease}
+  body.mobile:has(#stage[data-state="pages"]) #mnav, body.mobile:has(#stage[data-state="cover"]) #mnav{opacity:1;pointer-events:auto}
+  #mnav button{width:96px;height:44px;border:0;background:none;padding:0;cursor:pointer;transition:opacity .3s}
+  #mnav button img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(60,20,25,.2))}
+  #mnav button:disabled{opacity:0;pointer-events:none}
+  #mcount{flex:1;text-align:center;font:italic 300 15px 'Fraunces',serif;color:var(--bordo)}
+  #mcount b{font-style:normal;font-weight:400}
+  body.mobile #hint{font-size:30px}
+
+  @media (prefers-reduced-motion: reduce){ .desk,#closedBook,.grp{transition-duration:.01s!important} }
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="stage" data-state="loading">
+    <div id="bg"></div>
+    <div id="deskLayer"></div>
+    <div id="cover" class="grp"></div>
+    <div id="coverText"><div class="q"></div><div class="l"></div><div class="btns"><button id="btnResumen" class="fill"></button><button id="btnProyectos"></button></div></div>
+    <div id="aboutTag" role="button" tabindex="0"><span class="s"></span><span class="t"></span></div>
+    <div id="closedWrap" class="grp"></div>
+    <div id="layerDesk" class="layer"></div>
+    <div id="layerCover" class="layer"></div>
+    <div id="bookGrp" class="grp"></div>
+    <div id="pages" class="grp">
+      <div id="pageL" class="page"></div>
+      <div id="pageR" class="page"></div>
+    </div>
+    <div id="loader">
+      <svg viewBox="0 0 1440 1024"><defs><clipPath id="reveal"><rect id="revealRect" x="-40" y="0" width="0" height="1024"/></clipPath></defs><g id="holis" clip-path="url(#reveal)"></g></svg>
+      <img id="loadPen" src="assets/caneta-tinteiro.webp" alt="">
+    </div>
+    <div id="hint">toca el cuaderno para abrirlo</div>
+    <div id="hitClosed" role="button" aria-label="Abrir el cuaderno" tabindex="0"></div>
+    <div id="hitCover" role="button" aria-label="Pasar la página" tabindex="0"></div>
+    <nav id="nav">
+      <button id="prev" aria-label="Página anterior"><img src="assets/mao-esquerda.webp" alt=""></button>
+      <div id="count"></div>
+      <button id="next" aria-label="Página siguiente"><img src="assets/mao-direita.webp" alt=""></button>
+    </nav>
+    <button id="skip">saltar intro</button>
+  </div>
+</div>
+<div id="carta" role="dialog" aria-modal="true" aria-label="Resumen">
+  <div class="env" aria-hidden="true">
+    <img class="env-closed" src="assets/sobre-cerrado.webp" alt="">
+    <div class="env-open"><div class="env-back"></div><div class="env-paper"></div><img class="env-front" src="assets/sobre-frente.webp" alt=""></div>
+  </div>
+  <div class="paper"></div>
+</div>
+<nav id="mnav" aria-label="Navegación">
+  <button id="mprev" aria-label="Página anterior"><img src="assets/mao-esquerda.webp" alt=""></button>
+  <span id="mcount"></span>
+  <button id="mnext" aria-label="Página siguiente"><img src="assets/mao-direita.webp" alt=""></button>
+</nav>
+<script src="data.js"></script>
+<script src="content.js"></script>
+<script src="content.pt.js"></script>
+<script src="edits.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
